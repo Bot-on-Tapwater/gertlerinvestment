@@ -1,0 +1,19 @@
+Services:
+  app:
+    container_name: docs
+    image: node:22-alpine
+    command: sh -c "npm install &&  npm run build && npm run start"
+    ports:
+      - 3002:3000
+    working_dir: /docs
+    volumes:
+      - ./:/docs
+    networks:
+      - navengineproduct_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.docs.rule=Host(`gertlerinvestment.com`)"
+      - "traefik.http.routers.docs.entrypoints=websecure"
+      - "traefik.http.routers.docs.tls.certresolver=myresolver"
+      - 'traefik.http.services.docs.loadbalancer.server.port=3000'
+
