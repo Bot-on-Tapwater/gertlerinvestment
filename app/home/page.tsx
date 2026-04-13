@@ -1,3 +1,11 @@
+import Header from "../global/components/header";
+
 export default function HomePage() {
-  return <>Home Page!</>;
+  return (
+    <>
+      <section className="flex flex-col gap-y-16">
+        <Header />
+      </section>
+    </>
+  );
 }
