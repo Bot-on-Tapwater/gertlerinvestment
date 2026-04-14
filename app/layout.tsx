@@ -45,7 +45,7 @@ export default function RootLayout({
       lang="en"
       className={`${arimo.className} h-full antialiased bg-summertwo`}
     >
-      <body className="min-h-full flex flex-col justify-self-center w-7/10 py-8">
+      <body className="min-h-full flex flex-col justify-self-center w-full py-8">
         {children}
       </body>
     </html>

@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 function Logo() {
   return (
     <>
-      <div className="text-summer font-extrabold text-3xl">
+      <div className="text-summer font-extrabold text-3xl hover:text-summerfour ">
         <Link href={"/home"}>Gertler Investments</Link>
       </div>
     </>
@@ -23,7 +23,9 @@ function AuthNavItem({ link, name }: { link: string; name: string }) {
   return (
     <>
       <Link href={link}>
-        <div className="hover:text-summer">{name}</div>
+        <div className="hover:text-summer hover:translate-y-1 duration-200">
+          {name}
+        </div>
       </Link>
     </>
   );
@@ -33,7 +35,7 @@ export default function Header() {
   return (
     <>
       {/* Header */}
-      <section className="flex justify-between items-center">
+      <section className="flex w-7/10 justify-self-center justify-between">
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
@@ -93,7 +95,7 @@ export default function Header() {
           <Link href="/listings">
             <Button
               variant="outline"
-              className="bg-summer cursor-pointer border-summerfive hover:text-summertwo"
+              className="bg-summer cursor-pointer border-summerfive"
             >
               Create Listing
             </Button>
