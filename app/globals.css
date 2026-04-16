@@ -7,7 +7,7 @@
 :root {
   --primary: oklch(0.205 0 0);
   --secondary: oklch(0.97 0 0);
-  --summer: #e63946;
+  --summer: rgb(230 57 70 / <alpha-value>);
   --summertwo: #f1faee;
   --summerthree: #a8dadc;
   --summerfour: #457b9d;
@@ -130,9 +130,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }
