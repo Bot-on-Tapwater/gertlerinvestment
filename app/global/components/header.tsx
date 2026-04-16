@@ -1,20 +1,17 @@
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 function Logo() {
   return (
     <>
-      <div className="text-summer font-extrabold text-3xl hover:text-summerfour ">
-        <Link href={"/home"}>Gertler Investments</Link>
-      </div>
+      <Link href={"/home"}>
+        <div className=" text-summer font-extrabold text-3xl  duration-200 border-2 border-summerfour">
+          <div className="flex items-center gap-x-4 p-2">
+            <HouseIcon />
+            Gertler Investments
+          </div>
+        </div>
+      </Link>
     </>
   );
 }
@@ -23,84 +20,160 @@ function AuthNavItem({ link, name }: { link: string; name: string }) {
   return (
     <>
       <Link href={link}>
-        <div className="hover:text-summer hover:translate-y-1 duration-200">
-          {name}
+        <div className="hover:bg-summer/25 bg-transparent rounded-4xl duration-500">
+          <div className="duration-200 p-4">{name}</div>
         </div>
       </Link>
     </>
   );
 }
 
-export default function Header() {
+function NavBarItem({ name }: { name: string }) {
   return (
     <>
-      {/* Header */}
-      <section className="flex w-7/10 justify-self-center justify-between">
-        <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>For Sale</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <NavigationMenuLink>Houses for Sale</NavigationMenuLink>
-                <NavigationMenuLink>
-                  <Link href="/docs">Apartments for Sale</Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink>Land for Sale</NavigationMenuLink>
-                <NavigationMenuLink>
-                  Commercial Property for Sale
-                </NavigationMenuLink>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>For Rent</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <NavigationMenuLink>Houses for Rent</NavigationMenuLink>
-                <NavigationMenuLink>Apartments for Rent</NavigationMenuLink>
-                <NavigationMenuLink>
-                  Commercial Property for Rent
-                </NavigationMenuLink>
-                <NavigationMenuLink>Bedsitters for Rent</NavigationMenuLink>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            {/* <NavigationMenuItem>
-              <NavigationMenuTrigger>
-                Real Estate Projects
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <NavigationMenuLink>Developments Projects</NavigationMenuLink>
-                <NavigationMenuLink>Developments Map</NavigationMenuLink>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Estate Agencies</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <NavigationMenuLink>Estate Agencies</NavigationMenuLink>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Property Advice</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <NavigationMenuLink>Property Guides</NavigationMenuLink>
-                <NavigationMenuLink>Neighbourhood Guides</NavigationMenuLink>
-                <NavigationMenuLink>Decor & LifeStyle</NavigationMenuLink>
-                <NavigationMenuLink>Real Estate News</NavigationMenuLink>
-              </NavigationMenuContent>
-            </NavigationMenuItem> */}
-          </NavigationMenuList>
-        </NavigationMenu>
-        <Logo />
-        <section className="flex gap-x-4 text-summerfive text-sm font-bold items-center">
-          <AuthNavItem link={"/signup"} name={"Sign Up"} />
-          <AuthNavItem link={"/login"} name={"Login"} />
-          <Link href="/listings">
-            <Button
-              variant="outline"
-              className="bg-summer cursor-pointer border-summerfive"
-            >
-              Create Listing
-            </Button>
-          </Link>
+      <div
+        className="hover:bg-summer/25 bg-transparent rounded-4xl duration-500"
+        onMouseEnter={() => setNavHover(true)}
+      >
+        <div className="text-summerfour font-bold cursor-pointer duration-200 p-4 ">
+          {name}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function NavBarDesktop() {
+  return (
+    <>
+      <section className="flex gap-x-4 items-center">
+        <NavBarItem name="Buy" />
+        <NavBarItem name="Rent" />
+        <NavBarItem name="Sell" />
+      </section>
+    </>
+  );
+}
+
+function VerticalSeparator() {
+  return <div className="h-6 w-0.5 bg-summer"></div>;
+}
+
+function HouseIcon() {
+  return (
+    <>
+      <span className="inline-block hover:text-summerfive transition-colors duration-200">
+        <svg
+          fill="currentColor"
+          version="1.1"
+          id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg"
+          width="40px"
+          height="40px"
+          viewBox="0 0 100 100"
+          enable-background="new 0 0 100 100"
+        >
+          <g>
+            <g>
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M56.012,54.093c2.282,4.587,0.839,15.064,1.397,18.175
+			c-1.886,1.528-6.565,1.598-9.786,1.118c-2.21-0.329-3.207-1.422-4.474-1.397c-0.137-5.84-2.815-14.789,1.398-18.176
+			C48.381,53.895,52.601,53.588,56.012,54.093z M47.343,68.632c1.771,0,3.542,0,5.312,0c0.439-2.497,0.439-6.451,0-8.948
+			c-1.957,0-3.914,0-5.871,0C46.78,62.859,46.621,66.186,47.343,68.632z"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M78.661,54.093c0.447,5.706,0.973,11.46,0.28,17.056
+			c-2.714,2.933-10.125,2.671-14.261,1.119c0.045-5.376-1.356-12.562-0.559-17.616c0.156-0.403,0.436-0.682,0.838-0.839
+			C69.44,53.993,74.643,53.449,78.661,54.093z M69.433,68.912c1.311,0.368,3.069,0.288,4.753,0.28c0.683-2.658-0.33-5.489,0-8.668
+			c-1.678,0-3.355,0-5.033,0C69.259,63.309,68.895,66.562,69.433,68.912z"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M35.041,54.371c1.744,3.083,0.419,8.503,0.838,12.584
+			c0.214,2.081,1.025,3.084,0.28,4.753c-2.414-0.418-1.583,1.065-1.678,1.398c-3.822,0.651-8.854,0.093-13.142,0.279
+			c-1.228-4.93-1.028-12.02-0.839-17.895C23.797,53.27,30.838,54.214,35.041,54.371z M25.533,69.192c1.771,0,3.542,0,5.312,0
+			c0.011-4.219-0.279-5.163-0.279-9.227c-1.771,0-3.542,0-5.313,0C25.04,63.347,25.686,65.871,25.533,69.192z"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M51.258,5.438c0.186,0,0.372,0,0.559,0c5.783,5.025,12.01,9.62,18.176,14.261
+			c6.201,4.668,12.918,8.656,18.175,14.261c0.911,19.372,2.794,41.379,1.678,59.559c-5.114,1.575-10.649,0.784-15.939,0.839
+			c-19.872,0.207-41.663,0.332-64.033,0c0.881-13.395,0.28-30.775,0.28-46.977c0-4.741-1.067-12.045,0.56-15.1
+			c1.576-2.958,7.544-4.844,10.066-7.269c0.428-5.041-0.788-10.041,1.398-13.143c4.798-1.506,11.604-0.034,9.227,6.991
+			C38.57,14.934,43.941,9.213,51.258,5.438z M53.774,14.387c-1.127-0.557-1.709-2.493-3.355-1.678
+			c-0.171,0.016-0.332,0.042-0.279,0.28c-0.62,5.16-0.117,13.864-0.28,20.412c1.495-0.182,3.723,0.368,4.754-0.279
+			C54.008,27.37,53.676,19.915,53.774,14.387z M24.415,15.225c-0.236,1.776,0.16,5.21,0,7.829c1.819-0.231,2.438-1.663,3.915-2.237
+			c0-1.864,0-3.729,0-5.592C27.106,14.873,25.639,14.873,24.415,15.225z M38.676,22.216c0.906,3.009,0.626,7.203,0.838,10.905
+			c1.678,0,3.355,0,5.034,0c-0.026-5.102-0.12-10.134-0.56-14.821C42.387,19.775,40.222,20.687,38.676,22.216z M59.087,33.4
+			c1.305,0,2.61,0,3.915,0c0-3.914,0-7.829,0-11.743c-1.154-1.27-2.688-2.161-4.195-3.076C58.639,23.782,59.019,28.435,59.087,33.4z
+			 M29.168,27.529c0.693,1.45-0.247,4.534,0.838,5.592c1.678,0,3.355,0,5.034,0c0.375-2.43-0.187-6.08-0.56-8.668
+			C32.928,25.696,31.064,26.628,29.168,27.529z M67.476,33.68c1.617,0.22,2.391-0.405,3.914-0.28c0-1.957,0-3.914,0-5.871
+			c-1.528-0.802-2.834-1.826-4.194-2.796C67.367,27.637,66.844,31.236,67.476,33.68z M20.78,32.841
+			c1.588-0.183,3.909,0.368,5.034-0.28c-0.817-0.302,0.257-2.494-0.56-2.796C23.961,30.99,22.042,31.587,20.78,32.841z M75.305,33.4
+			c1.099-0.02,2.102-0.134,2.797-0.559c-1.133-0.452-1.393-1.776-2.797-1.957C75.305,31.723,75.305,32.562,75.305,33.4z
+			 M21.339,39.552c-1.79,0.061-3.958-0.041-5.593,0.838c0,0.84,0,1.678,0,2.517c20.347,0.455,44.996,0.471,66.27,0
+			c0.268-1.422-0.442-2.918,0-3.635C61.577,39.555,39.435,38.946,21.339,39.552z M15.746,47.661
+			c-0.11,14.232,1.898,28.358,0.56,41.384c18.772-0.123,37.353,0.28,55.924,0.28c4.226,0,8.509-0.667,11.464,0.839
+			C82.938,76.286,84.14,60.45,82.016,47.94C60.256,47.307,36.45,47.222,15.746,47.661z"
+              />
+            </g>
+          </g>
+        </svg>
+      </span>
+    </>
+  );
+}
+
+function HeaderTopBitDesktop() {
+  return (
+    <section className="flex">
+      <section className="flex w-full justify-self-center justify-between">
+        <section className="flex gap-x-12 items-center">
+          <Logo />
+          <NavBarDesktop />
         </section>
+
+        <section className="flex gap-x-2 text-summerfour font-bold items-center">
+          <AuthNavItem link={"/signup"} name={"Sign Up"} />
+          <VerticalSeparator />
+          <AuthNavItem link={"/login"} name={"Login"} />
+        </section>
+      </section>
+    </section>
+  );
+}
+
+function HeaderDropdownMenuDesktop() {
+  return (
+    <>
+      <section className="flex bg-summer/10 text-summerfive">
+        <section className="flex flex-col p-8 gap-y-4 font-bold">
+          <div>House for sale</div>
+          <div>Apartment for sale</div>
+          <div>Commercial property for sale</div>
+          <div>Land for sale</div>
+        </section>
+      </section>
+    </>
+  );
+}
+
+export default function Header() {
+  const [navHover, setNavHover] = useState(true);
+
+  return (
+    <>
+      <section className="flex flex-col w-7/10 gap-y-0.5px">
+        {/* Header */}
+        <HeaderTopBitDesktop />
+        {/* NavMenu Options */}
+        <HeaderDropdownMenuDesktop />
       </section>
     </>
   );
