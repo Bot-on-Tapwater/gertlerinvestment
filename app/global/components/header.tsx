@@ -1,12 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import { useState } from "react";
+
+type MenuItems = "Buy" | "Sell" | "Rent" | null;
 
 function Logo() {
   return (
     <>
       <Link href={"/home"}>
-        <div className=" text-summer font-extrabold text-3xl  duration-200 border-2 border-summerfour">
-          <div className="flex items-center gap-x-4 p-2">
+        <div className=" text-summer font-extrabold text-3xl">
+          <div className="flex items-center gap-x-1 p-2">
             <HouseIcon />
             Gertler Investments
           </div>
@@ -28,14 +32,23 @@ function AuthNavItem({ link, name }: { link: string; name: string }) {
   );
 }
 
-function NavBarItem({ name }: { name: string }) {
+function NavBarItem({
+  name,
+  handleMouseEnter,
+  handleMouseLeave,
+}: {
+  name: MenuItems;
+  handleMouseEnter: any;
+  handleMouseLeave: any;
+}) {
   return (
     <>
       <div
         className="hover:bg-summer/25 bg-transparent rounded-4xl duration-500"
-        onMouseEnter={() => setNavHover(true)}
+        onMouseEnter={() => handleMouseEnter(name)}
+        onMouseLeave={handleMouseLeave}
       >
-        <div className="text-summerfour font-bold cursor-pointer duration-200 p-4 ">
+        <div className="text-summerfour font-extrabold cursor-pointer duration-200 p-4 ">
           {name}
         </div>
       </div>
@@ -43,13 +56,31 @@ function NavBarItem({ name }: { name: string }) {
   );
 }
 
-function NavBarDesktop() {
+function NavBarDesktop({
+  handleMouseEnter,
+  handleMouseLeave,
+}: {
+  handleMouseEnter: any;
+  handleMouseLeave: any;
+}) {
   return (
     <>
       <section className="flex gap-x-4 items-center">
-        <NavBarItem name="Buy" />
-        <NavBarItem name="Rent" />
-        <NavBarItem name="Sell" />
+        <NavBarItem
+          name="Buy"
+          handleMouseEnter={handleMouseEnter}
+          handleMouseLeave={handleMouseLeave}
+        />
+        <NavBarItem
+          name="Rent"
+          handleMouseEnter={handleMouseEnter}
+          handleMouseLeave={handleMouseLeave}
+        />
+        <NavBarItem
+          name="Sell"
+          handleMouseEnter={handleMouseEnter}
+          handleMouseLeave={handleMouseLeave}
+        />
       </section>
     </>
   );
@@ -131,33 +162,94 @@ function HouseIcon() {
 }
 
 function HeaderTopBitDesktop() {
+  const [dropDownMenuHover, setDropDownMenuHover] = useState(true);
+  const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItems>(null);
+
+  const handleMouseEnterMenuItemFunction = (menuItem: MenuItems) => {
+    setSelectedMenuItem(menuItem);
+  };
+
+  const handleMouseLeaveMenuItemFunction = () => {
+    setSelectedMenuItem(null);
+  };
+
+  const handleMouseEnterDropDownMenu = () => {
+    setDropDownMenuHover(!dropDownMenuHover);
+  };
+
+  const handleMouseLeaveDropDownMenu = () => {
+    setDropDownMenuHover(!dropDownMenuHover);
+  };
+
   return (
-    <section className="flex">
+    <section className="flex h-12 relative">
       <section className="flex w-full justify-self-center justify-between">
-        <section className="flex gap-x-12 items-center">
+        <section className="flex gap-x-24 items-center">
           <Logo />
-          <NavBarDesktop />
+          <NavBarDesktop
+            handleMouseEnter={handleMouseEnterMenuItemFunction}
+            handleMouseLeave={handleMouseLeaveMenuItemFunction}
+          />
         </section>
 
-        <section className="flex gap-x-2 text-summerfour font-bold items-center">
+        <section className="flex gap-x-2 text-summerfour font-extrabold items-center">
           <AuthNavItem link={"/signup"} name={"Sign Up"} />
           <VerticalSeparator />
           <AuthNavItem link={"/login"} name={"Login"} />
         </section>
       </section>
+      {/* NavMenu Options */}
+      <HeaderDropdownMenuDesktop selectedMenuItem={selectedMenuItem} />
     </section>
   );
 }
 
-function HeaderDropdownMenuDesktop() {
+function SeparatorHorizontal({ className = `w-12` }: { className: string }) {
   return (
     <>
-      <section className="flex bg-summer/10 text-summerfive">
-        <section className="flex flex-col p-8 gap-y-4 font-bold">
-          <div>House for sale</div>
-          <div>Apartment for sale</div>
-          <div>Commercial property for sale</div>
-          <div>Land for sale</div>
+      <div className={`h-1 bg-summertwo ${className}`}></div>
+    </>
+  );
+}
+
+function MenuItem({ name }: { name: MenuItems }) {
+  return (
+    <>
+      <div className="text-summertwo">{name}</div>
+    </>
+  );
+}
+
+function HeaderDropdownMenuDesktop({
+  selectedMenuItem,
+}: {
+  selectedMenuItem: MenuItems;
+}) {
+  return (
+    <>
+      <section
+        className={`bg-summer text-summerfive absolute top-16 w-full z-10 ${selectedMenuItem ? "flex" : "hidden"}`}
+      >
+        <section className="flex flex-col p-8 gap-y-6 font-bold">
+          <section className="flex flex-col">
+            <MenuItem name="Buy" />
+            <SeparatorHorizontal className="w-8" />
+          </section>
+          <section className="flex flex-col gap-y-4">
+            <div>House for sale</div>
+            <div>Apartment for sale</div>
+            <div>Commercial property for sale</div>
+            <div>Land for sale</div>
+          </section>
+          <section className="flex flex-col gap-y-4">
+            <div>House for rent</div>
+            <div>Apartment for rent</div>
+            <div>Commercial property for rent</div>
+            <div>Bedsitters for rent</div>
+          </section>
+          <section className="flex flex-col gap-y-4">
+            <div>Create listing</div>
+          </section>
         </section>
       </section>
     </>
@@ -165,15 +257,11 @@ function HeaderDropdownMenuDesktop() {
 }
 
 export default function Header() {
-  const [navHover, setNavHover] = useState(true);
-
   return (
     <>
       <section className="flex flex-col w-7/10 gap-y-0.5px">
         {/* Header */}
         <HeaderTopBitDesktop />
-        {/* NavMenu Options */}
-        <HeaderDropdownMenuDesktop />
       </section>
     </>
   );

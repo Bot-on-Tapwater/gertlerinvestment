@@ -98,7 +98,7 @@ function AgentIcon() {
 function SectionAfterHeader() {
   return (
     <>
-      <section className="flex gap-x-2 items-center w-7/10 border-2 border-summer p-8 rounded-2xl flex-wrap justify-around hover:translate-y-2 duration-200">
+      <section className="flex gap-x-2 items-center w-7/10 border-2 border-summer p-8 rounded-2xl flex-wrap justify-around hover:translate-y-2 duration-200 z-0">
         <Image
           alt="Image of real estate properties"
           src="/images/home/house-modern-interior-design-luxury-wallpaper-preview.jpg"
