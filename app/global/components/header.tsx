@@ -164,13 +164,19 @@ function HouseIcon() {
 function HeaderTopBitDesktop() {
   const [dropDownMenuHover, setDropDownMenuHover] = useState(true);
   const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItems>(null);
+  const [dropDownOpenStatus, setDropDownOpenStatus] = useState(false);
 
   const handleMouseEnterMenuItemFunction = (menuItem: MenuItems) => {
     setSelectedMenuItem(menuItem);
+    setDropDownOpenStatus(true);
   };
 
   const handleMouseLeaveMenuItemFunction = () => {
     setSelectedMenuItem(null);
+    setTimeout(() => {
+      setDropDownOpenStatus(false);
+    }, 2000);
+    // setDropDownOpenStatus(false);
   };
 
   const handleMouseEnterDropDownMenu = () => {
@@ -199,7 +205,10 @@ function HeaderTopBitDesktop() {
         </section>
       </section>
       {/* NavMenu Options */}
-      <HeaderDropdownMenuDesktop selectedMenuItem={selectedMenuItem} />
+      <HeaderDropdownMenuDesktop
+        selectedMenuItem={selectedMenuItem}
+        dropDownOpenStatus={dropDownOpenStatus}
+      />
     </section>
   );
 }
@@ -222,8 +231,10 @@ function MenuItem({ name }: { name: MenuItems }) {
 
 function HeaderDropdownMenuDesktop({
   selectedMenuItem,
+  dropDownOpenStatus,
 }: {
   selectedMenuItem: MenuItems;
+  dropDownOpenStatus: boolean;
 }) {
   return (
     <>
@@ -232,24 +243,31 @@ function HeaderDropdownMenuDesktop({
       >
         <section className="flex flex-col p-8 gap-y-6 font-bold">
           <section className="flex flex-col">
-            <MenuItem name="Buy" />
-            <SeparatorHorizontal className="w-8" />
+            <MenuItem name={selectedMenuItem} />
+            <SeparatorHorizontal className="w-12" />
           </section>
-          <section className="flex flex-col gap-y-4">
-            <div>House for sale</div>
-            <div>Apartment for sale</div>
-            <div>Commercial property for sale</div>
-            <div>Land for sale</div>
-          </section>
-          <section className="flex flex-col gap-y-4">
-            <div>House for rent</div>
-            <div>Apartment for rent</div>
-            <div>Commercial property for rent</div>
-            <div>Bedsitters for rent</div>
-          </section>
-          <section className="flex flex-col gap-y-4">
-            <div>Create listing</div>
-          </section>
+          {selectedMenuItem === "Buy" ? (
+            <section className="flex flex-col gap-y-4">
+              <div>House for sale</div>
+              <div>Apartment for sale</div>
+              <div>Commercial property for sale</div>
+              <div>Land for sale</div>
+            </section>
+          ) : null}
+          {selectedMenuItem === "Rent" ? (
+            <section className="flex flex-col gap-y-4">
+              <div>House for rent</div>
+              <div>Apartment for rent</div>
+              <div>Commercial property for rent</div>
+              <div>Bedsitters for rent</div>
+            </section>
+          ) : null}
+
+          {selectedMenuItem === "Sell" ? (
+            <section className="flex flex-col gap-y-4">
+              <div>Create listing</div>
+            </section>
+          ) : null}
         </section>
       </section>
     </>
