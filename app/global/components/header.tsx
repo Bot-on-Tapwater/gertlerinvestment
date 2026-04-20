@@ -140,15 +140,17 @@ function HeaderTopBitDesktop() {
 
   const handleMouseEnterMenuItemFunction = (menuItem: MenuItems) => {
     if (timeoutId) clearTimeout(timeoutId);
-    setSelectedMenuItem(menuItem);
-    setIsDropdownOpen(true);
+    setTimeout(() => {
+      setSelectedMenuItem(menuItem);
+      setIsDropdownOpen(true);
+    }, 250);
   };
 
   const handleMouseLeaveMenuItemFunction = () => {
     const id = setTimeout(() => {
       setSelectedMenuItem(null);
       setIsDropdownOpen(false);
-    }, 1000);
+    }, 500);
 
     setTimeoutId(id);
   };
