@@ -80,9 +80,7 @@ export default function Logo() {
     <>
       <Link href={"/home"}>
         <div className=" text-summer font-extrabold text-3xl">
-          <div
-            className={`flex items-center gap-x-1 p-2 ${bitcountGridDouble.className}`}
-          >
+          <div className={`flex items-center ${bitcountGridDouble.className}`}>
             {/* <HouseIcon /> */}
             Gertler Investment
           </div>
