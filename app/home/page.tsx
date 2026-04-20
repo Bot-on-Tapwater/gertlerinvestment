@@ -1,5 +1,6 @@
 import Header from "../global/components/header";
 import Image from "next/image";
+import Footer from "../global/components/footer";
 
 function HomeIcon() {
   return (
@@ -138,6 +139,7 @@ export default function HomePage() {
       <section className="flex flex-col gap-y-16 items-center w-full">
         <Header />
         <SectionAfterHeader />
+        <Footer />
       </section>
     </>
   );
