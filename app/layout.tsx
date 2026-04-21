@@ -8,6 +8,8 @@ import {
   Roboto,
 } from "next/font/google";
 import "./globals.css";
+import Footer from "./global/components/footer";
+import Header from "./global/components/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,12 +43,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${arimo.className} h-full antialiased bg-summertwo`}
-    >
-      <body className="min-h-full flex flex-col justify-self-center w-full py-8">
+    <html lang="en" className={`${arimo.className} h-full antialiased`}>
+      <body className="min-h-full flex flex-col justify-self-center w-full py-8 gap-y-16 items-center bg-summertwo">
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
