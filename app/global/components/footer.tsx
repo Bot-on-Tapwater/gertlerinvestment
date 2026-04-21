@@ -4,7 +4,7 @@ import Logo from "./logo";
 function ForwardSlashIcon() {
   return (
     <>
-      <span className="inline-block hover:text-summer hover:scale-110 transition-colors duration-200 text-summerfour">
+      <span className="inline-block  text-summerfour">
         <svg
           className="w-48"
           viewBox="0 0 172 16"
