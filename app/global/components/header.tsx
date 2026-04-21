@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import Logo from "./logo";
+import { AnimatePresence, motion } from "motion/react";
 
 type MenuItems = "Buy" | "Sell" | "Rent" | null;
 
@@ -63,7 +64,7 @@ function NavBarItem({
         onMouseEnter={() => handleMouseEnter(name)}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="text-summerfour font-extrabold cursor-pointer duration-200 p-4 ">
+        <div className="text-summerfour cursor-pointer duration-200 p-4 ">
           {name}
         </div>
       </div>
@@ -179,20 +180,22 @@ function HeaderTopBitDesktop() {
           />
         </section>
 
-        <section className="flex gap-x-2 text-summerfour font-extrabold items-center">
+        <section className="flex gap-x-2 text-summerfour items-center">
           <AuthNavItem link={"/signup"} name={"Sign Up"} />
           <VerticalSeparator />
           <AuthNavItem link={"/login"} name={"Login"} />
         </section>
       </section>
       {/* NavMenu Options */}
-      {isDropdownOpen && selectedMenuItem && (
-        <HeaderDropdownMenuDesktop
-          selectedMenuItem={selectedMenuItem}
-          handleMouseEnter={handleMouseEnterDropDownMenu}
-          handleMouseLeave={handleMouseLeaveDropDownMenu}
-        />
-      )}
+      <AnimatePresence>
+        {isDropdownOpen && selectedMenuItem && (
+          <HeaderDropdownMenuDesktop
+            selectedMenuItem={selectedMenuItem}
+            handleMouseEnter={handleMouseEnterDropDownMenu}
+            handleMouseLeave={handleMouseLeaveDropDownMenu}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
@@ -206,13 +209,16 @@ function HeaderDropdownMenuDesktop({
   handleMouseEnter: any;
   handleMouseLeave: any;
 }) {
-  console.log("Drop down options", getDropdownOptions(selectedMenuItem));
   return (
     <>
-      <section
-        className={`bg-summer text-summerfive absolute top-16 w-full z-10 flex`}
+      <motion.section
+        className={`bg-summerthree text-summerfive absolute top-16 w-full z-10 flex`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.2 }}
       >
         <section className="flex flex-col p-8 gap-y-6 font-bold">
           <section className="flex flex-col">
@@ -223,7 +229,7 @@ function HeaderDropdownMenuDesktop({
             {getDropdownOptions(selectedMenuItem)}
           </section>
         </section>
-      </section>
+      </motion.section>
     </>
   );
 }
