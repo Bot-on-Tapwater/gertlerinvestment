@@ -36,7 +36,10 @@ function LoginForm() {
         <div className="flex flex-col gap-y-4">
           <label className="flex justify-between items-center">
             <div>Password</div>
-            <Link href="" className="hover:underline text-summerfive/80">
+            <Link
+              href="/login/reset-password"
+              className="hover:underline text-summerfive/80"
+            >
               Forgot Password?
             </Link>
           </label>
@@ -68,5 +71,3 @@ export default function Login() {
     </>
   );
 }
-
-// shadow-xl shadow-summerfive
