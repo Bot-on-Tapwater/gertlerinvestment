@@ -47,7 +47,7 @@ function LoginForm() {
             className="border-1 border-summerfive/80 p-4 rounded-lg"
           />
         </div>
-        <button className="bg-summerfive p-4 text-summertwo rounded-lg">
+        <button className="bg-summerfive p-4 text-summertwo rounded-lg cursor-pointer hover:bg-summerfive/85 duration-200">
           Login
         </button>
         <div className="flex items-center justify-center p-2">
