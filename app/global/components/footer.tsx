@@ -6,6 +6,7 @@ import {
   TiktokIcon,
   YoutubeIcon,
   InstagramIcon,
+  WhatsappIcon,
 } from "./svgIcons";
 
 function FooterNavItem({ name, link = "/" }: { name: string; link?: string }) {
@@ -28,7 +29,7 @@ function IconContainer({
   children,
   link = "",
 }: {
-  children: any;
+  children: React.ReactNode;
   link?: string;
 }) {
   return (
@@ -54,6 +55,9 @@ function Icons() {
         <IconContainer>
           <YoutubeIcon />
         </IconContainer>
+        <IconContainer>
+          <WhatsappIcon />
+        </IconContainer>
       </section>
     </>
   );
@@ -63,11 +67,11 @@ function FooterNav() {
   return (
     <>
       <section className="flex gap-x-8">
-        <FooterNavItem name="About" />
-        <FooterNavItem name="Features" />
-        <FooterNavItem name="Works" />
+        {/* <FooterNavItem name="About" />
+        <FooterNavItem name="Features" /> */}
+        <FooterNavItem name="Properties" />
         <FooterNavItem name="Support" />
-        <FooterNavItem name="Help" />
+        <FooterNavItem name="FAQ" />
       </section>
     </>
   );
