@@ -74,7 +74,7 @@ function SignupForm() {
 export default function Signup() {
   return (
     <>
-      <section className="p-8 border-2 shadow-lg shadow-summerfive border-summerfive rounded-lg flex flex-col gap-y-12 w-lg text-summerfive">
+      <section className="p-8 border-2 shadow-lg shadow-summerfive border-summerfive bg-secondary rounded-lg flex flex-col gap-y-12 w-lg text-summerfive">
         <BeforeFormSegment />
         <SignupForm />
       </section>
