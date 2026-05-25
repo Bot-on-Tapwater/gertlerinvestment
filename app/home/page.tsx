@@ -6,15 +6,20 @@ import { motion } from "motion/react";
 function PicHeroSection() {
   return (
     <>
-      <div className="relative col-span-1 flex items-start">
+      <motion.div
+        className="relative col-span-1 flex items-start"
+        initial={{ opacity: 0, x: -150 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1.5 }}
+      >
         <Image
           alt="Picture of houses"
           width={2000}
           height={2000}
-          src="/images/home/houses.jpg"
+          src="/images/home/pexels-jpgata-10581671.jpg"
           className="w-lg rounded-2xl"
         />
-      </div>
+      </motion.div>
     </>
   );
 }
