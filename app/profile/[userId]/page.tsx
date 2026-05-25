@@ -69,7 +69,7 @@ function UserProfileForm() {
           name="email"
           readOnly={true}
         />
-        <button className="px-6 py-3 bg-summer rounded-md text-sm font-bold text-summertwo cursor-pointer hover:bg-summer/85 duration-200">
+        <button className="px-6 py-3 bg-summerfive rounded-md text-sm font-bold text-summertwo cursor-pointer hover:bg-summerfive/85 duration-200">
           Update
         </button>
       </form>
