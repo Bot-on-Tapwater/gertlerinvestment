@@ -14,23 +14,29 @@ import Header from "./global/components/header";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  fallback: ["monospace"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  fallback: ["monospace"],
 });
 
 const googleSansCode = Google_Sans_Code({
   variable: "--font-google-sans-code",
   subsets: ["latin"],
+  fallback: ["monospace"],
 });
 
-const bitcountGridDouble = Bitcount_Grid_Double({ subsets: ["latin"] });
+const bitcountGridDouble = Bitcount_Grid_Double({
+  subsets: ["latin"],
+  fallback: ["monospace"],
+});
 
-const arimo = Arimo({ subsets: ["latin"] });
+const arimo = Arimo({ subsets: ["latin"], fallback: ["monospace"] });
 
-const roboto = Roboto({ subsets: ["latin"] });
+const roboto = Roboto({ subsets: ["latin"], fallback: ["monospace"] });
 
 export const metadata: Metadata = {
   title: "Gertler Investment",
