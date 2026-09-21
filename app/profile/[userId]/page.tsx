@@ -26,7 +26,6 @@ function UserInput({
   value?: string;
   name: string;
   readOnly?: boolean;
-  // @ts-ignore
   onChange?: any;
 }) {
   return (
@@ -49,7 +48,7 @@ function UserProfileForm() {
   const [profileForm, updateProfileForm] =
     useImmer<userProfileFormData>(userProfileForm);
 
-  function handleFullNameChange(e: any) {
+  function handleFullNameChange(e: React.ChangeEvent<HTMLInputElement>) {
     updateProfileForm((draft) => {
       draft.fullName = e.target.value;
     });

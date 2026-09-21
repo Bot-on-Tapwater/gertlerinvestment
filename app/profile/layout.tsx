@@ -45,7 +45,7 @@ function NavigationProfile() {
     "profile",
   );
 
-  const handleClick = (item: any) => {
+  const handleClick = (item: "profile" | "listings") => {
     setNavigationItem(item);
   };
 
