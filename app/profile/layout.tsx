@@ -45,7 +45,7 @@ function NavigationProfile() {
     "profile",
   );
 
-  const handleClick = (item) => {
+  const handleClick = (item: any) => {
     setNavigationItem(item);
   };
 
