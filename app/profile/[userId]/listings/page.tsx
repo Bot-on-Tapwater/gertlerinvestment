@@ -4,6 +4,8 @@ import { listings } from "@/app/global/lib/listings";
 import { PlusIcon } from "@/app/global/components/svgIcons";
 import { Pagination } from "@/components/tailgrids/core/pagination";
 import { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 const today = new Date().toLocaleDateString();
 
@@ -96,14 +98,19 @@ function TableBody() {
 }
 
 function AddListing() {
+  const params = useParams();
+  const userId = params.userId;
+
   return (
     <>
-      <section className="grid grid-cols-1">
-        <button className="p-4 bg-summerfive rounded-md text-sm text-summertwo items w-56 font-bold cursor-pointer justify-self-end flex gap-x-2 items-center justify-center hover:bg-transparent hover:border hover:border-summerfive hover:text-summerfive  duration-200">
-          <PlusIcon />
-          Add New Property
-        </button>
-      </section>
+      <Link href={`/profile/${userId}/listings/create-listing`}>
+        <section className="grid grid-cols-1">
+          <button className="p-4 bg-summerfive rounded-md text-sm text-summertwo items w-56 font-bold cursor-pointer justify-self-end flex gap-x-2 items-center justify-center hover:bg-transparent hover:border hover:border-summerfive hover:text-summerfive  duration-200">
+            <PlusIcon />
+            Add New Property
+          </button>
+        </section>
+      </Link>
     </>
   );
 }
