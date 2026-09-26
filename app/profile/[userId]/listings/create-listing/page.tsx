@@ -201,6 +201,38 @@ function CreateListingButton({
   );
 }
 
+// function FormSection({
+//   children,
+//   sectionName,
+// }: {
+//   children: any;
+//   sectionName: string;
+// }) {
+//   return (
+//     <>
+//       <section className="border p-4 border-summerfive/50 flex flex-col gap-y-4">
+//         <div className="font-semibold">{sectionName}</div>
+//         {children}
+//       </section>
+//     </>
+//   );
+// }
+
+function SeparatorHorizontal() {
+  return (
+    <>
+      <section className="flex m-0">
+        {/* <div
+          className={`h-0.5 bg-summerfive/25 w-full justify-self-start`}
+        ></div>
+        <div
+          className={`h-0.5 bg-summerfive/25 w-full justify-self-start`}
+        ></div> */}
+      </section>
+    </>
+  );
+}
+
 function PropertyDetailsForm() {
   const [files, setFiles] = useState<string[]>([]);
 
@@ -245,8 +277,8 @@ function PropertyDetailsForm() {
   return (
     <>
       <section>
-        <form className="border-2 p-4 rounded">
-          <section className="flex flex-col gap-y-16">
+        <form className="border border-summerfive p-4 rounded">
+          <section className="grid grid-cols-1 gap-y-8">
             <UserInput
               text="Property name"
               name="propertyName"
@@ -269,6 +301,9 @@ function PropertyDetailsForm() {
                 required={true}
               ></textarea>
             </FormInputWrapper>
+
+            <SeparatorHorizontal />
+
             <FormInputWrapper>
               <label className="font-bold">Property Type</label>
               {Object.keys(propertyTypes).map((type) => (
@@ -338,15 +373,7 @@ function PropertyDetailsForm() {
               onChange={handleStringInputChange}
               required={true}
             />
-            <UserInput
-              text="Property price"
-              name="propertyPriceInKes"
-              value={propertyFormImmer.propertyPriceInKes}
-              placeholder="10,000,000 KES"
-              onChange={handleNumberInputChange}
-              type="number"
-              required={true}
-            />
+
             <UserInput
               text="Number of bedrooms"
               name="noOfBedrooms"
@@ -417,6 +444,18 @@ function PropertyDetailsForm() {
                 required={true}
               />
             </FormInputWrapper>
+
+            <UserInput
+              text="Property price"
+              name="propertyPriceInKes"
+              value={propertyFormImmer.propertyPriceInKes}
+              placeholder="10,000,000 KES"
+              onChange={handleNumberInputChange}
+              type="number"
+              required={true}
+            />
+
+            <SeparatorHorizontal />
             <FormInputWrapper>
               <label className="font-bold">Internal Features</label>
               <section className="grid grid-cols-4 text-sm items-start px-4 space-x-8 space-y-8 w-full">
@@ -542,6 +581,7 @@ function PropertyDetailsForm() {
                 />
               </section>
             </FormInputWrapper>
+            <SeparatorHorizontal />
             <UserInput
               text="Instagram video link"
               name="instagramLink"
@@ -581,16 +621,17 @@ function PropertyDetailsForm() {
                 </section>
               )}
             </FormInputWrapper>
-          </section>
-          <section className="grid grid-cols-8">
-            <CreateListingButton
-              text="Create listing"
-              style="col-start-4 bg-summerfive hover:bg-summerfive/85"
-            />
-            <CreateListingButton
-              text="Close"
-              style="bg-summer hover:bg-summer/85"
-            />
+            <SeparatorHorizontal />
+            <section className="grid grid-cols-8">
+              <CreateListingButton
+                text="Create listing"
+                style="col-start-4 bg-summerfive hover:bg-summerfive/85"
+              />
+              <CreateListingButton
+                text="Close"
+                style="bg-summer hover:bg-summer/85"
+              />
+            </section>
           </section>
         </form>
       </section>
