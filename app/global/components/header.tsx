@@ -122,14 +122,23 @@ function MenuItem({ name }: { name: MenuItems }) {
   );
 }
 
-function DropDownOptionsItem({ name }: { name: string }) {
+function DropDownOptionsItem({ name, link }: { name: string; link?: string }) {
   return (
     <>
-      <Link href="/">
-        <div className="hover:text-summertwo hover:py-2 hover:translate-x-4 duration-200">
-          {name}
-        </div>
-      </Link>
+      {name === "Create listing" && (
+        <Link href="/profile/1/listings/create-listing">
+          <div className="hover:text-summertwo hover:py-2 hover:translate-x-4 duration-200">
+            {name}
+          </div>
+        </Link>
+      )}
+      {name !== "Create listing" && (
+        <Link href="/">
+          <div className="hover:text-summertwo hover:py-2 hover:translate-x-4 duration-200">
+            {name}
+          </div>
+        </Link>
+      )}
     </>
   );
 }
