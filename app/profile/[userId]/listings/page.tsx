@@ -5,29 +5,37 @@ import { PlusIcon } from "@/app/global/components/svgIcons";
 import { Pagination } from "@/components/tailgrids/core/pagination";
 import { useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const today = new Date().toLocaleDateString();
 
-const listingsItems = listings.map((listing) => {
-  return (
-    <>
-      <tr
-        key={listing.id}
-        className={`grid grid-cols-7 space-y-4 p-4 items-center border-b border-summerfive/50 cursor-pointer hover:py-8 hover:bg-summerthree/50 duration-200`}
-      >
-        <TableBodyItem value={listing.title} className="col-span-2" />
-        <TableBodyItem value={listing.type} />
-        <TableBodyItem value={listing.price} />
-        <TableBodyItem value={listing.location} />
-        <TableBodyItem value={today} />
-        <TableBodyItem>
-          <DeleteButton />
-        </TableBodyItem>
-      </tr>
-    </>
-  );
-});
+const listingsItems = (userId: string, router: ReturnType<typeof useRouter>) =>
+  listings.map((listing) => {
+    return (
+      <>
+        <tr
+          key={listing.id}
+          className={`grid grid-cols-7 space-y-4 p-4 items-center border-b border-summerfive/50 cursor-pointer hover:py-8 hover:bg-summerthree/50 duration-200`}
+          onClick={() =>
+            router.push(`/profile/${userId}/listings/${listing.id}`)
+          }
+        >
+          <TableBodyItem value={listing.title} className="col-span-2" />
+          <TableBodyItem value={listing.type} />
+          <TableBodyItem value={listing.price} />
+          <TableBodyItem value={listing.location} />
+          <TableBodyItem value={today} />
+          <TableBodyItem>
+            <section className="flex gap-x-8">
+              <EditButton userId={userId} listingId={listing.id} />
+
+              <DeleteButton />
+            </section>
+          </TableBodyItem>
+        </tr>
+      </>
+    );
+  });
 
 function DeleteButton() {
   return (
@@ -35,6 +43,24 @@ function DeleteButton() {
       <button className="border-summer border p-2 rounded-lg text-summer cursor-pointer hover:bg-summer hover:text-summertwo duration-200">
         Delete
       </button>
+    </>
+  );
+}
+
+function EditButton({
+  userId,
+  listingId,
+}: {
+  userId: string;
+  listingId: number;
+}) {
+  return (
+    <>
+      <Link href={`/profile/${userId}/listings/${listingId}`}>
+        <button className="border-summerfive border p-2 rounded-lg text-summerfive cursor-pointer hover:bg-summerfive hover:text-summertwo duration-200">
+          Edit
+        </button>
+      </Link>
     </>
   );
 }
@@ -82,7 +108,7 @@ function TableHeader() {
           <TableHeaderItem name="Price (Ksh)" />
           <TableHeaderItem name="Location" />
           <TableHeaderItem name="Updated" />
-          <TableHeaderItem name="Action" />
+          <TableHeaderItem name="Actions" />
         </tr>
       </thead>
     </>
@@ -90,9 +116,11 @@ function TableHeader() {
 }
 
 function TableBody() {
+  const { userId } = useParams<{ userId: string }>();
+  const router = useRouter();
   return (
     <>
-      <tbody>{listingsItems}</tbody>
+      <tbody>{listingsItems(userId, router)}</tbody>
     </>
   );
 }
@@ -163,6 +191,9 @@ export default function UserListings() {
       <section className="flex flex-col gap-y-16">
         <AddListing />
         <ListingsSearchBar />
+        <p className="text-sm text-summerfive/70">
+          Click a row to edit the listing
+        </p>
         <ListingsTable />
         <Pagination
           currentPage={currentPage}
