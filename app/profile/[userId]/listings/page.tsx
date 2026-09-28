@@ -27,7 +27,7 @@ const listingsItems = (userId: string, router: ReturnType<typeof useRouter>) =>
           <TableBodyItem value={today} />
           <TableBodyItem>
             <section className="flex gap-x-8">
-              <EditButton userId={userId} listingId={listing.id} />
+              {/* <EditButton userId={userId} listingId={listing.id} /> */}
 
               <DeleteButton />
             </section>
@@ -108,7 +108,7 @@ function TableHeader() {
           <TableHeaderItem name="Price (Ksh)" />
           <TableHeaderItem name="Location" />
           <TableHeaderItem name="Updated" />
-          <TableHeaderItem name="Actions" />
+          <TableHeaderItem name="Action" />
         </tr>
       </thead>
     </>
@@ -146,10 +146,15 @@ function AddListing() {
 function ListingsTable() {
   return (
     <>
-      <table className="flex flex-col text-sm text-summerfive border border-summerfive">
-        <TableHeader />
-        <TableBody />
-      </table>
+      <section>
+        <p className="text-sm text-summerfive/70 pb-2">
+          Click a row to edit the listing.
+        </p>
+        <table className="flex flex-col text-sm text-summerfive border border-summerfive">
+          <TableHeader />
+          <TableBody />
+        </table>
+      </section>
     </>
   );
 }
@@ -191,9 +196,7 @@ export default function UserListings() {
       <section className="flex flex-col gap-y-16">
         <AddListing />
         <ListingsSearchBar />
-        <p className="text-sm text-summerfive/70">
-          Click a row to edit the listing
-        </p>
+
         <ListingsTable />
         <Pagination
           currentPage={currentPage}
