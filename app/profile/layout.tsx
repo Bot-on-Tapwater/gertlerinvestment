@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 function NavigationProfileItem({
   name,
@@ -13,10 +14,15 @@ function NavigationProfileItem({
   navigationItem: "profile" | "listings";
   onClick: any;
 }) {
+  const pathname = usePathname();
+  const currentNavigationItem =
+    pathname.includes("profile") && pathname.includes("listings")
+      ? "listings"
+      : "profile";
   return (
     <>
       <Link href={link}>
-        {name.toLowerCase() === navigationItem.toLowerCase() ? (
+        {name.toLowerCase() === currentNavigationItem.toLowerCase() ? (
           <button
             className="p-2 bg-summerfive/10 text-summerfive rounded-lg cursor-pointer text-sm duration-200"
             onClick={() => {
