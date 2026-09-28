@@ -120,6 +120,7 @@ function UserInput({
   readOnly = false,
   onChange,
   required = false,
+  children,
 }: {
   text: string;
   value?: string | number;
@@ -129,11 +130,15 @@ function UserInput({
   readOnly?: boolean;
   onChange?: any;
   required?: boolean;
+  children?: any;
 }) {
   return (
     <>
       <div className="flex flex-col text-sm items-start gap-y-2">
-        <label className="font-bold">{text}</label>
+        <label className="font-bold">
+          {text} {children}
+        </label>
+
         <input
           value={value}
           name={name}
@@ -201,33 +206,31 @@ function CreateListingButton({
   );
 }
 
-// function FormSection({
-//   children,
-//   sectionName,
-// }: {
-//   children: any;
-//   sectionName: string;
-// }) {
-//   return (
-//     <>
-//       <section className="border p-4 border-summerfive/50 flex flex-col gap-y-4">
-//         <div className="font-semibold">{sectionName}</div>
-//         {children}
-//       </section>
-//     </>
-//   );
-// }
+function LabelDescription({
+  text = "Optional",
+}: {
+  text?: "Optional" | "Required";
+}) {
+  return <span className="text-summerfive/50">{`(${text})`}</span>;
+}
 
 function SeparatorHorizontal() {
   return (
     <>
-      <section className="flex m-0">
-        {/* <div
-          className={`h-0.5 bg-summerfive/25 w-full justify-self-start`}
-        ></div>
-        <div
-          className={`h-0.5 bg-summerfive/25 w-full justify-self-start`}
-        ></div> */}
+      <section className="flex m-0"></section>
+    </>
+  );
+}
+
+function FormSection({ name, children }: { name: string; children: any }) {
+  return (
+    <>
+      <section className="grid grid-cols-1 pl-8 gap-y-8">
+        <div className="font-semibold text-lg border-b border-summerfive justify-self-center text-summerfive">
+          {name}
+        </div>
+        <section className="pl-8 flex flex-col gap-y-8">{children}</section>
+        <SeparatorHorizontal />
       </section>
     </>
   );
@@ -277,351 +280,380 @@ function PropertyDetailsForm() {
   return (
     <>
       <section>
-        <form className="border border-summerfive p-4 rounded">
+        <form className="grid grid-cols-1 border border-summerfive p-4 rounded">
+          <div className="font-bold text-2xl mb-8 border-b-2 justify-self-start text-summerfive">
+            Create Listing
+          </div>
           <section className="grid grid-cols-1 gap-y-8">
-            <UserInput
-              text="Property name"
-              name="propertyName"
-              value={propertyFormImmer.propertyName}
-              placeholder="Kitisuru Falls Residence"
-              onChange={handleStringInputChange}
-              required={true}
-            />
-            <FormInputWrapper>
-              <label className="font-bold">Property Description</label>
-              <textarea
-                value={propertyFormImmer.propertyDescription}
-                name="propertyDescription"
-                className="justify-self-start border-1 border-summerfive/25 p-2 rounded-lg font-normal"
-                placeholder="This land goes for 1.2 Million kenyan shillings an acre"
-                readOnly={false}
-                rows={3}
-                cols={40}
+            <FormSection name="Description">
+              <UserInput
+                text="Property name"
+                name="propertyName"
+                value={propertyFormImmer.propertyName}
+                placeholder="Kitisuru Falls Residence"
                 onChange={handleStringInputChange}
                 required={true}
-              ></textarea>
-            </FormInputWrapper>
+              ></UserInput>
+              <FormInputWrapper>
+                <label className="font-bold">Property Description</label>
+                <textarea
+                  value={propertyFormImmer.propertyDescription}
+                  name="propertyDescription"
+                  className="justify-self-start border-1 border-summerfive/25 p-2 rounded-lg font-normal"
+                  placeholder="This land goes for 1.2 Million kenyan shillings an acre"
+                  readOnly={false}
+                  rows={3}
+                  cols={40}
+                  onChange={handleStringInputChange}
+                  required={true}
+                ></textarea>
+              </FormInputWrapper>
+            </FormSection>
 
-            <SeparatorHorizontal />
-
-            <FormInputWrapper>
-              <label className="font-bold">Property Type</label>
-              {Object.keys(propertyTypes).map((type) => (
-                <label
-                  key={type}
-                  className="flex items-center gap-x-2 capitalize"
-                >
-                  <input
-                    type="radio"
-                    name="propertyType"
-                    value={type}
-                    checked={propertyFormImmer.propertyType === type}
-                    onChange={handleStringInputChange}
-                    key={type}
-                    required={true}
-                  />
-                  {type}
-                </label>
-              ))}
-            </FormInputWrapper>
-
-            {propertyFormImmer.propertyType && (
-              <section className="flex flex-col text-sm items-start gap-y-2">
-                <label className="font-bold">Poperty type subcategory</label>
-                {propertyTypes[
-                  propertyFormImmer.propertyType as keyof typeof propertyTypes
-                ].map((subtype) => (
+            <FormSection name="Property Type & Location">
+              <FormInputWrapper>
+                <label className="font-bold">Property Type</label>
+                {Object.keys(propertyTypes).map((type) => (
                   <label
-                    key={subtype}
+                    key={type}
                     className="flex items-center gap-x-2 capitalize"
                   >
                     <input
                       type="radio"
-                      name="propertyTypeSubcategory"
-                      value={subtype}
-                      checked={
-                        propertyFormImmer.propertyTypeSubcategory === subtype
-                      }
+                      name="propertyType"
+                      value={type}
+                      checked={propertyFormImmer.propertyType === type}
                       onChange={handleStringInputChange}
+                      key={type}
+                      required={true}
                     />
-                    {subtype}
+                    {type}
                   </label>
                 ))}
-              </section>
-            )}
-            <UserInput
-              text="Property location"
-              name="propertyLocation"
-              value={propertyFormImmer.propertyLocation}
-              placeholder="Lower Kabete, Kiambu"
-              onChange={handleStringInputChange}
-              required={true}
-            />
-            <UserInput
-              text="Property neighbourhood"
-              name="propertyNeighbourhood"
-              value={propertyFormImmer.propertyNeighbourhood}
-              placeholder="Gatonyo"
-              onChange={handleStringInputChange}
-              required={true}
-            />
-            <UserInput
-              text="Property county"
-              name="propertyCounty"
-              value={propertyFormImmer.propertyCounty}
-              placeholder="Kiambu"
-              onChange={handleStringInputChange}
-              required={true}
-            />
+              </FormInputWrapper>
 
-            <UserInput
-              text="Number of bedrooms"
-              name="noOfBedrooms"
-              value={propertyFormImmer.noOfBedrooms}
-              placeholder="4 bedrooms"
-              onChange={handleNumberInputChange}
-              type="number"
-              required={true}
-            />
-            <UserInput
-              text="Number of bathrooms"
-              name="noOfBathrooms"
-              value={propertyFormImmer.noOfBathrooms}
-              placeholder="3 bathrooms"
-              onChange={handleNumberInputChange}
-              type="number"
-              required={true}
-            />
-            <FormInputWrapper>
-              <label className="font-bold ">Floor size unit</label>
-              <section className="flex gap-x-8">
-                {areaUnits.map((unit) => (
-                  <label key={unit} className="flex items-center gap-x-2">
-                    <input
-                      type="radio"
-                      name="floorSizeUnit"
-                      value={unit}
-                      checked={propertyFormImmer.floorSizeUnit === unit}
-                      onChange={handleStringInputChange}
-                    />{" "}
-                    {unit}
-                  </label>
-                ))}
-              </section>
-              <UserInput
-                text="Floor size"
-                name="floorSize"
-                value={propertyFormImmer.floorSize}
-                placeholder="1500 sqft"
-                onChange={handleNumberInputChange}
-                type="number"
-                required={true}
-              />
-            </FormInputWrapper>
-            <FormInputWrapper>
-              <label className="font-bold ">Land size unit</label>
-              <section className="flex gap-x-8">
-                {areaUnits.map((unit) => (
-                  <label key={unit} className="flex items-center gap-x-2">
-                    <input
-                      type="radio"
-                      name="landSizeUnit"
-                      value={unit}
-                      checked={propertyFormImmer.landSizeUnit === unit}
-                      onChange={handleStringInputChange}
-                    />{" "}
-                    {unit}
-                  </label>
-                ))}
-              </section>
-              <UserInput
-                text="Land size"
-                name="landSize"
-                value={propertyFormImmer.landSize}
-                placeholder="3 hectares"
-                onChange={handleNumberInputChange}
-                type="number"
-                required={true}
-              />
-            </FormInputWrapper>
-
-            <UserInput
-              text="Property price"
-              name="propertyPriceInKes"
-              value={propertyFormImmer.propertyPriceInKes}
-              placeholder="10,000,000 KES"
-              onChange={handleNumberInputChange}
-              type="number"
-              required={true}
-            />
-
-            <SeparatorHorizontal />
-            <FormInputWrapper>
-              <label className="font-bold">Internal Features</label>
-              <section className="grid grid-cols-4 text-sm items-start px-4 space-x-8 space-y-8 w-full">
-                <UserInputCheckbox
-                  text="Air conditioning"
-                  name="airConditioning"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Alarm system"
-                  name="alarmSystem"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Backup generator"
-                  name="backupGenerator"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="En-Suite bathroom"
-                  name="enSuiteBathroom"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Fibre internet"
-                  name="fibreInternet"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Service charge included"
-                  name="serviceChargeIncluded"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Walk-in closet"
-                  name="walkInCloset"
-                  onChange={handleBooleanInputChange}
-                />
-              </section>
-            </FormInputWrapper>
-            <FormInputWrapper>
-              <label className="font-bold">External Features</label>
-              <section className="grid grid-cols-4 text-sm items-start px-4 space-x-8 space-y-8 w-full">
-                <UserInputCheckbox
-                  text="Balcony"
-                  name="balcony"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="BBQ area"
-                  name="bbqArea"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Borehole"
-                  name="borehole"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="CCTV"
-                  name="cctv"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Electric fence"
-                  name="electricFence"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Garden"
-                  name="garden"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Gated community"
-                  name="gatedCommunity"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Gym"
-                  name="gym"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Kids play area"
-                  name="kidsPlayArea"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Parking"
-                  name="parking"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Staff quaters"
-                  name="staffQuaters"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Swimming pool"
-                  name="swimmingPool"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Wheelchair access"
-                  name="gatedCommunity"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Sea view"
-                  name="seaView"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Scenic view"
-                  name="scenicView"
-                  onChange={handleBooleanInputChange}
-                />
-                <UserInputCheckbox
-                  text="Golf course"
-                  name="golfCourse"
-                  onChange={handleBooleanInputChange}
-                />
-              </section>
-            </FormInputWrapper>
-            <SeparatorHorizontal />
-            <UserInput
-              text="Instagram video link"
-              name="instagramLink"
-              value={propertyFormImmer.instagramLink}
-              placeholder="https://www.instagram.com/reel/DdqyiSvMO6A/?utm_source=ig_web_copy_link&stkn=NTc4MTIwNjQ2YQ=="
-              onChange={handleStringInputChange}
-              required={true}
-            />
-
-            <FormInputWrapper>
-              <label className="font-bold">Upload Images</label>
-              <input
-                type="file"
-                onChange={handleImageChange}
-                className="border-2 rounded p-2"
-              />
-              {files.length > 0 && (
-                <section className="hover:border-2 duration-75 p-4 rounded w-full h-min grid grid-cols-4 gap-x-4 gap-y-4 items-start">
-                  {files.map((src, i) => (
-                    <div
-                      key={src}
-                      className="hover:border-2 rounded duration-75 relative p-4"
+              {propertyFormImmer.propertyType && (
+                <section className="flex flex-col text-sm items-start gap-y-2">
+                  <label className="font-bold">Property type subcategory</label>
+                  {propertyTypes[
+                    propertyFormImmer.propertyType as keyof typeof propertyTypes
+                  ].map((subtype) => (
+                    <label
+                      key={subtype}
+                      className="flex items-center gap-x-2 capitalize"
                     >
-                      <div className="absolute top-2 right-2 cursor-pointer">
-                        <CloseIcon />
-                      </div>
-
-                      <Image
-                        src={src}
-                        width={0}
-                        height={0}
-                        className="w-xs"
-                        alt={`Uploaded preview ${i + 1}`}
+                      <input
+                        type="radio"
+                        name="propertyTypeSubcategory"
+                        value={subtype}
+                        checked={
+                          propertyFormImmer.propertyTypeSubcategory === subtype
+                        }
+                        onChange={handleStringInputChange}
                       />
-                    </div>
+                      {subtype}
+                    </label>
                   ))}
                 </section>
               )}
-            </FormInputWrapper>
-            <SeparatorHorizontal />
+              <UserInput
+                text="Property location"
+                name="propertyLocation"
+                value={propertyFormImmer.propertyLocation}
+                placeholder="Lower Kabete, Kiambu"
+                onChange={handleStringInputChange}
+                required={true}
+              />
+              <UserInput
+                text="Property neighbourhood"
+                name="propertyNeighbourhood"
+                value={propertyFormImmer.propertyNeighbourhood}
+                placeholder="Gatonyo"
+                onChange={handleStringInputChange}
+                required={true}
+              >
+                <LabelDescription />
+              </UserInput>
+              <UserInput
+                text="Property county"
+                name="propertyCounty"
+                value={propertyFormImmer.propertyCounty}
+                placeholder="Kiambu"
+                onChange={handleStringInputChange}
+                required={true}
+              />
+            </FormSection>
+
+            <FormSection name="Property details">
+              <UserInput
+                text="Number of bedrooms"
+                name="noOfBedrooms"
+                value={propertyFormImmer.noOfBedrooms}
+                placeholder="4 bedrooms"
+                onChange={handleNumberInputChange}
+                type="number"
+                required={true}
+              >
+                <LabelDescription />
+              </UserInput>
+              <UserInput
+                text="Number of bathrooms"
+                name="noOfBathrooms"
+                value={propertyFormImmer.noOfBathrooms}
+                placeholder="3 bathrooms"
+                onChange={handleNumberInputChange}
+                type="number"
+                required={true}
+              >
+                <LabelDescription />
+              </UserInput>
+              <FormInputWrapper>
+                <label className="font-bold ">
+                  Floor size unit <LabelDescription />
+                </label>
+                <section className="flex gap-x-8">
+                  {areaUnits.map((unit) => (
+                    <label key={unit} className="flex items-center gap-x-2">
+                      <input
+                        type="radio"
+                        name="floorSizeUnit"
+                        value={unit}
+                        checked={propertyFormImmer.floorSizeUnit === unit}
+                        onChange={handleStringInputChange}
+                      />{" "}
+                      {unit}
+                    </label>
+                  ))}
+                </section>
+                <UserInput
+                  text="Floor size"
+                  name="floorSize"
+                  value={propertyFormImmer.floorSize}
+                  placeholder="1500 sqft"
+                  onChange={handleNumberInputChange}
+                  type="number"
+                  required={true}
+                >
+                  <LabelDescription />
+                </UserInput>
+              </FormInputWrapper>
+              <FormInputWrapper>
+                <label className="font-bold ">
+                  Land size unit <LabelDescription />
+                </label>
+                <section className="flex gap-x-8">
+                  {areaUnits.map((unit) => (
+                    <label key={unit} className="flex items-center gap-x-2">
+                      <input
+                        type="radio"
+                        name="landSizeUnit"
+                        value={unit}
+                        checked={propertyFormImmer.landSizeUnit === unit}
+                        onChange={handleStringInputChange}
+                      />{" "}
+                      {unit}
+                    </label>
+                  ))}
+                </section>
+                <UserInput
+                  text="Land size"
+                  name="landSize"
+                  value={propertyFormImmer.landSize}
+                  placeholder="3 hectares"
+                  onChange={handleNumberInputChange}
+                  type="number"
+                  required={true}
+                >
+                  <LabelDescription />
+                </UserInput>
+              </FormInputWrapper>
+
+              <UserInput
+                text="Property price"
+                name="propertyPriceInKes"
+                value={propertyFormImmer.propertyPriceInKes}
+                placeholder="10,000,000 KES"
+                onChange={handleNumberInputChange}
+                type="number"
+                required={true}
+              />
+            </FormSection>
+            <FormSection name="Property features">
+              <FormInputWrapper>
+                <label className="font-bold">
+                  Internal Features <LabelDescription />
+                </label>
+                <section className="grid grid-cols-4 text-sm items-start px-4 space-x-8 space-y-8 w-full">
+                  <UserInputCheckbox
+                    text="Air conditioning"
+                    name="airConditioning"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Alarm system"
+                    name="alarmSystem"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Backup generator"
+                    name="backupGenerator"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="En-Suite bathroom"
+                    name="enSuiteBathroom"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Fibre internet"
+                    name="fibreInternet"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Service charge included"
+                    name="serviceChargeIncluded"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Walk-in closet"
+                    name="walkInCloset"
+                    onChange={handleBooleanInputChange}
+                  />
+                </section>
+              </FormInputWrapper>
+              <FormInputWrapper>
+                <label className="font-bold">
+                  External Features <LabelDescription />
+                </label>
+                <section className="grid grid-cols-4 text-sm items-start px-4 space-x-8 space-y-8 w-full">
+                  <UserInputCheckbox
+                    text="Balcony"
+                    name="balcony"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="BBQ area"
+                    name="bbqArea"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Borehole"
+                    name="borehole"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="CCTV"
+                    name="cctv"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Electric fence"
+                    name="electricFence"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Garden"
+                    name="garden"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Gated community"
+                    name="gatedCommunity"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Gym"
+                    name="gym"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Kids play area"
+                    name="kidsPlayArea"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Parking"
+                    name="parking"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Staff quaters"
+                    name="staffQuaters"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Swimming pool"
+                    name="swimmingPool"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Wheelchair access"
+                    name="gatedCommunity"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Sea view"
+                    name="seaView"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Scenic view"
+                    name="scenicView"
+                    onChange={handleBooleanInputChange}
+                  />
+                  <UserInputCheckbox
+                    text="Golf course"
+                    name="golfCourse"
+                    onChange={handleBooleanInputChange}
+                  />
+                </section>
+              </FormInputWrapper>
+            </FormSection>
+            <FormSection name="Media">
+              <UserInput
+                text="Instagram video link"
+                name="instagramLink"
+                value={propertyFormImmer.instagramLink}
+                placeholder="https://www.instagram.com/reel/DdqyiSvMO6A/?utm_source=ig_web_copy_link&stkn=NTc4MTIwNjQ2YQ=="
+                onChange={handleStringInputChange}
+                required={true}
+              >
+                <LabelDescription />
+              </UserInput>
+
+              <FormInputWrapper>
+                <label className="font-bold">
+                  Upload Images <LabelDescription />
+                </label>
+                <input
+                  type="file"
+                  onChange={handleImageChange}
+                  className="border-2 rounded p-2"
+                />
+                {files.length > 0 && (
+                  <section className="hover:border-2 duration-75 p-4 rounded w-full h-min grid grid-cols-4 gap-x-4 gap-y-4 items-start">
+                    {files.map((src, i) => (
+                      <div
+                        key={src}
+                        className="hover:border-2 rounded duration-75 relative p-4"
+                      >
+                        <div className="absolute top-2 right-2 cursor-pointer">
+                          <CloseIcon />
+                        </div>
+
+                        <Image
+                          src={src}
+                          width={0}
+                          height={0}
+                          className="w-xs"
+                          alt={`Uploaded preview ${i + 1}`}
+                        />
+                      </div>
+                    ))}
+                  </section>
+                )}
+              </FormInputWrapper>
+            </FormSection>
             <section className="grid grid-cols-8">
               <CreateListingButton
                 text="Create listing"
